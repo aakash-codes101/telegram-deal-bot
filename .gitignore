@@ -1,0 +1,11 @@
+# Python
+*.pyc
+__pycache__/
+
+# Session files
+*.session
+*.session-journal
+
+# Local environment files
+.env
+venv/
