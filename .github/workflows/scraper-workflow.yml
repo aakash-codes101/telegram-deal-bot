@@ -1,0 +1,42 @@
+name: Fetch Telegram Deals Bot
+
+on:
+  schedule:
+    # This runs the job every 30 minutes
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # This allows you to run it manually from the Actions tab
+
+jobs:
+  scrape-deals:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Allows the action to commit files back to your repo
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Bot Script
+        env:
+          # This section provides all 5 required secrets to your Python script
+          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          AMAZON_TRACKING_ID: ${{ secrets.AMAZON_TRACKING_ID }}
+        run: python scraper.py
+
+      - name: Commit Bot Memory
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "BOT: Update posted links memory"
+          # This commits only the bot's memory file
+          file_pattern: "posted_links.json"
