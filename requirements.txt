@@ -1,0 +1,4 @@
+telethon
+beautifulsoup4
+python-telegram-bot
+aiohttp
