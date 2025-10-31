@@ -180,7 +180,7 @@ async def main():
         if not new_links:
             print("No new Amazon links to process. Posting status message.")
             try:
-                await bot.send_message(chat_id=CHAT_ID, text="Nothing posted this time.")
+                
                 print("✅ Status message posted successfully.")
             except Exception as e:
                 print(f"❌ Failed to post status message: {e}")
